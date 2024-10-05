@@ -1,24 +1,32 @@
 pipeline {
-	agent any	tools {
-		maven 'mymaven'
-		jdk 'jdk'
-	}
-	stages {
-		stage('Clone'){
-			steps {git url:'https://github.com/UST-TRAINING-RAZEEN1/service-registry', branch:'main'}			}
-		stage('Build'){
-			steps {bat "mvn clean install -DskipTests"}
-		}
-		stage('Test'){
-			steps{bat "mvn test"}		}
-		}
-		stage('Deploy') {
-			steps { 
-				bat "docker rm -f serviceregistry-container"
-				bat "docker rmi -f serviceregistry-image"
-			        bat "docker build -t serviceregistry-image ."
-			        bat "docker run -p 8090:8090 -d --name apigateway-container serviceregistry-image"
-			         }
-		}
-	}
+    agent any
+    tools {
+        maven 'mymaven'
+        jdk 'jdk'
+    }
+    stages {
+        stage('Clone') {
+            steps {
+                git url: 'https://github.com/UST-TRAINING-RAZEEN1/service-registry', branch: 'main'
+            }
+        }
+        stage('Build') {
+            steps {
+                bat "mvn clean install -DskipTests"
+            }
+        }
+        stage('Test') {
+            steps {
+                bat "mvn test"
+            }
+        }
+        stage('Deploy') {
+            steps {
+                bat "docker rm -f serviceregistry-container"
+                bat "docker rmi -f serviceregistry-image"
+                bat "docker build -t serviceregistry-image ."
+                bat "docker run -p 8762:8762 -d --name apigateway-container serviceregistry-image"
+            }
+        }
+    }
 }
