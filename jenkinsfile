@@ -25,7 +25,7 @@ pipeline {
                 bat "docker rm -f serviceregistry-container"
                 bat "docker rmi -f serviceregistry-image"
                 bat "docker build -t serviceregistry-image ."
-                bat "docker run -p 8762:8762 -d --name apigateway-container serviceregistry-image"
+                bat "docker run -p 8762:8762 -d --name serviceregistry-container serviceregistry-image"
             }
         }
     }
